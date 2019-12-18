@@ -10,8 +10,11 @@ export default function MovieForm(props) {
     metascore: "",
     stars: []
   });
+  const [message, setMessage] = useState("");
 
-  useEffect(() => {
+  console.log(props);
+
+  function getMovies() {
     axios
       .get(`http://localhost:5000/api/movies/${id}`)
       .then(res => {
@@ -21,6 +24,10 @@ export default function MovieForm(props) {
       .catch(err => {
         console.log(err);
       });
+  }
+
+  useEffect(() => {
+    getMovies();
   }, []);
 
   function handleChanges(event) {
@@ -48,6 +55,19 @@ export default function MovieForm(props) {
       .catch(err => {
         console.log(err);
       });
+
+    setMessage("edit pending...");
+
+    setTimeout(() => {
+      setMessage("edit complete!");
+    }, 1000);
+    setTimeout(() => {
+      setMessage("");
+    }, 1500);
+
+    setTimeout(() => {
+      props.history.push("/");
+    }, 1600);
   }
 
   return (
@@ -85,6 +105,9 @@ export default function MovieForm(props) {
         />
       </label>
       <input type="submit" />
+      <div>
+        <h2>{message}</h2>
+      </div>
     </form>
   );
 }
