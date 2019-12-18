@@ -27,7 +27,9 @@ export default function MovieForm(props) {
   }
 
   useEffect(() => {
-    getMovies();
+    if (props.edit) {
+      getMovies();
+    }
   }, []);
 
   function handleChanges(event) {
@@ -46,28 +48,51 @@ export default function MovieForm(props) {
 
   function handleSubmit(event) {
     event.preventDefault();
+    if (props.edit) {
+      axios
+        .put(`http://localhost:5000/api/movies/${id}`, movie)
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
 
-    axios
-      .put(`http://localhost:5000/api/movies/${id}`, movie)
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+      setMessage("edit pending...");
 
-    setMessage("edit pending...");
+      setTimeout(() => {
+        setMessage("edit complete!");
+      }, 1000);
+      setTimeout(() => {
+        setMessage("");
+      }, 1500);
 
-    setTimeout(() => {
-      setMessage("edit complete!");
-    }, 1000);
-    setTimeout(() => {
-      setMessage("");
-    }, 1500);
+      setTimeout(() => {
+        props.history.push("/");
+      }, 1600);
+    } else {
+      axios
+        .post("http://localhost:5000/api/movies", movie)
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      setMovie({ id: "", title: "", director: "", metascore: "", stars: [] });
+      setMessage("adding movie...");
 
-    setTimeout(() => {
-      props.history.push("/");
-    }, 1600);
+      setTimeout(() => {
+        setMessage("movie added!");
+      }, 1000);
+      setTimeout(() => {
+        setMessage("");
+      }, 1500);
+
+      setTimeout(() => {
+        props.history.push("/");
+      }, 1600);
+    }
   }
 
   return (

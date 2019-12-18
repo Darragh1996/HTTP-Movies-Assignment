@@ -22,7 +22,18 @@ const App = () => {
           return <Movie {...props} addToSavedList={addToSavedList} />;
         }}
       />
-      <Route exact path="/update-movie/:id" component={MovieForm} />
+      <Route
+        path="/update-movie/:id"
+        render={props => {
+          return <MovieForm {...props} edit={true} />;
+        }}
+      />
+      <Route
+        path="/add-movie"
+        render={props => {
+          return <MovieForm {...props} />;
+        }}
+      />
     </>
   );
 };
