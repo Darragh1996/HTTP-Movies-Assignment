@@ -71,6 +71,18 @@ body {
   background-color: lightskyblue;
 }
 
+.delete-button {
+  padding: 5px 10px;
+  background-color: tomato;
+}
+
+.edit-button {
+  text-decoration: none;
+  color: white;
+  padding: 5px 10px;
+  background-color: orange;
+}
+
 .movie-warning {
   color: red;
   text-align: center;
